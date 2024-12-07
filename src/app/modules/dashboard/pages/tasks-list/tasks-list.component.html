@@ -1,0 +1,60 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Table Title -->
+  <h1 class="text-2xl font-bold mb-6">Tasks List</h1>
+
+  <div class="flex flex-col lg:flex-row gap-6" cdkDropListGroup>
+    <!-- Pending Tasks -->
+    <div class="flex-1">
+      <h2 class="text-xl font-semibold mb-4">Pending</h2>
+      <div
+        class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
+        cdkDropList
+        id="Pending"
+        [cdkDropListData]="pendingTasks()"
+        (cdkDropListDropped)="onDrop($event)"
+      >
+        @for (task of pendingTasks(); track $index) {
+        <task-card [task]="task"></task-card>
+        } @if(!pendingTasks()?.length){
+        <no-data-found></no-data-found>
+        }
+      </div>
+    </div>
+
+    <!-- In Progress Tasks -->
+    <div class="flex-1">
+      <h2 class="text-xl font-semibold mb-4">In Progress</h2>
+      <div
+        class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
+        cdkDropList
+        id="InProgress"
+        [cdkDropListData]="inProgressTasks()"
+        (cdkDropListDropped)="onDrop($event)"
+      >
+        @for (task of inProgressTasks(); track $index) {
+        <task-card [task]="task"></task-card>
+        } @if(!inProgressTasks()?.length){
+        <no-data-found></no-data-found>
+        }
+      </div>
+    </div>
+
+    <!-- Completed Tasks -->
+    <div class="flex-1">
+      <h2 class="text-xl font-semibold mb-4">Completed</h2>
+      <div
+        class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
+        cdkDropList
+        id="Completed"
+        [cdkDropListData]="completedTasks()"
+        (cdkDropListDropped)="onDrop($event)"
+      >
+        @for (task of completedTasks(); track $index) {
+        <task-card [task]="task"></task-card>
+        } @if(!completedTasks()?.length){
+        <no-data-found></no-data-found>
+        }
+      </div>
+    </div>
+  </div>
+</div>

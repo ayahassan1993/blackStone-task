@@ -1,0 +1,87 @@
+<header class="shadow-md dark:shadow-2xl">
+  <div
+    class="container mx-auto px-4 py-5 flex justify-between items-center dark:border-b-white dark:border-b"
+  >
+    <!-- Logo -->
+    <a routerLink="/" class="text-xl font-bold">Task Management </a>
+
+    <div class="inline-flex gap-3">
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex space-x-6">
+        <a routerLink="/tasks" class="hover:opacity-80">Tasks</a>
+        <a routerLink="/tasks/add" class="hover:opacity-80">Add Task</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        class="md:hidden focus:outline-none hover:opacity-80"
+        (click)="isMobileMenuOpen.set(!isMobileMenuOpen())"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          />
+        </svg>
+      </button>
+
+      <!-- Dark/Light Mode Toggle -->
+      <button
+        class="ml-4 focus:outline-none hover:opacity-80"
+        (click)="toggleDarkMode()"
+      >
+        @if(isDarkMode()){
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m8.66-8.66l-.707.707M4.05 4.05l-.707.707m16.243 0l-.707-.707M4.757 19.243l-.707-.707M3 12h1m16 0h1M12 5a7 7 0 110 14 7 7 0 010-14z"
+          />
+        </svg>
+        } @else {
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17.293 14.293A8 8 0 118.586 5.586a8.012 8.012 0 008.707 8.707z"
+          />
+        </svg>
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  @if(isMobileMenuOpen()){
+  <div
+    class="md:hidden dark:text-white dark:bg-gray-800 dark:shadow-2xl shadow-md"
+  >
+    <nav class="space-y-2 p-4">
+      <a routerLink="/tasks" class="block hover:text-gray-300">Tasks</a>
+      <a routerLink="/tasks/add" class="block hover:text-gray-300">Add Task</a>
+    </nav>
+  </div>
+  }
+</header>

@@ -1,0 +1,30 @@
+{
+  "editor.fontSize": 15,
+  "explorer.confirmDragAndDrop": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.singleQuote": false,
+  "workbench.startupEditor": "none",
+  "editor.suggestSelection": "first",
+  "prettier.tabWidth": 2,
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "git.confirmSync": false,
+  "explorer.confirmDelete": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.cursorBlinking": "expand",
+  "editor.fontFamily": "'Cascadia Code', monospace",
+  "editor.fontLigatures": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "prettier.enable": true,
+  "[csharp]": {
+    "editor.tabSize": 4,
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "[java]": {
+    "editor.tabSize": 4
+  },
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingQuotes": "always"
+}

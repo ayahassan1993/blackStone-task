@@ -1,0 +1,13 @@
+.dark {
+  .mdc-text-field--filled {
+    background-color: #1f2937 !important;
+    .mdc-text-field__input {
+      color: #fff !important;
+    }
+    .mdc-floating-label,
+    .mdc-text-field__input,
+    .mat-mdc-select-value {
+      color: #fff !important;
+    }
+  }
+}
