@@ -74,7 +74,6 @@ export class DashboardService {
 
   updateTask(task: Task) {
     let index = this.tasksList.findIndex((t) => t.id == task.id);
-    console.log(this.tasksList);
     if (index > -1) {
       this.tasksList[index] = { ...task };
 
@@ -85,5 +84,30 @@ export class DashboardService {
   updateTasks(tasks: Task[]) {
     this.tasksList = tasks;
     this.tasksListBehavior.next(this.tasksList);
+  }
+
+  filterTasks(filte: any) {
+    if (
+      !filte?.searchKey &&
+      !filte?.priority &&
+      !filte?.status &&
+      !filte?.assignedTo
+    ) {
+      return this.tasksList;
+    }
+
+    return this.tasksList.filter((task) => {
+      return (
+        (filte?.searchKey
+          ? task.name.toLowerCase().includes(filte?.searchKey.toLowerCase()) ||
+            task?.description
+              .toLowerCase()
+              .includes(filte?.searchKey.toLowerCase())
+          : true) &&
+        (filte?.priority ? task.priority === filte?.priority : true) &&
+        (filte?.status ? task.status === filte?.status : true) &&
+        (filte?.assignedTo ? task.assignedTo.id === filte?.assignedTo.id : true)
+      );
+    });
   }
 }

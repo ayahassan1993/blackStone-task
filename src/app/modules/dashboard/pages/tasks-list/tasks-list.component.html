@@ -1,59 +1,144 @@
 <div class="container mx-auto px-4 py-8">
-  <!-- Table Title -->
-  <h1 class="text-2xl font-bold mb-6">Tasks List</h1>
-
-  <div class="flex flex-col lg:flex-row gap-6" cdkDropListGroup>
-    <!-- Pending Tasks -->
-    <div class="flex-1">
-      <h2 class="text-xl font-semibold mb-4">Pending</h2>
-      <div
-        class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
-        cdkDropList
-        id="Pending"
-        [cdkDropListData]="pendingTasks()"
-        (cdkDropListDropped)="onDrop($event)"
-      >
-        @for (task of pendingTasks(); track $index) {
-        <task-card [task]="task"></task-card>
-        } @if(!pendingTasks()?.length){
-        <no-data-found></no-data-found>
-        }
+  <cdk-accordion>
+    <cdk-accordion-item #accordionItem="cdkAccordionItem">
+      <div class="flex justify-between items-center">
+        <!-- Table Title -->
+        <h1 class="text-2xl font-bold mb-6">Tasks List</h1>
+        <button
+          class="example-accordion-item-header"
+          (click)="accordionItem.toggle()"
+          tabindex="0"
+          [attr.id]="'accordion-header-1'"
+          [attr.aria-expanded]="accordionItem.expanded"
+          [attr.aria-controls]="'accordion-body-1'"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            class="bi bi-funnel"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"
+            />
+          </svg>
+        </button>
       </div>
-    </div>
 
-    <!-- In Progress Tasks -->
-    <div class="flex-1">
-      <h2 class="text-xl font-semibold mb-4">In Progress</h2>
+      @if(accordionItem.expanded) {
       <div
-        class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
-        cdkDropList
-        id="InProgress"
-        [cdkDropListData]="inProgressTasks()"
-        (cdkDropListDropped)="onDrop($event)"
+        class="grid grid-cols-1 md:grid-cols-2 lg:md:grid-cols-3 gap-4"
+        [formGroup]="filterForm"
       >
-        @for (task of inProgressTasks(); track $index) {
-        <task-card [task]="task"></task-card>
-        } @if(!inProgressTasks()?.length){
-        <no-data-found></no-data-found>
-        }
+        <!-- Search Bar -->
+        <mat-form-field class="w-full">
+          <mat-label>Search by name, description</mat-label>
+          <input
+            matInput
+            id="searchKey"
+            formControlName="searchKey"
+            placeholder="Search by name, description"
+          />
+        </mat-form-field>
+
+        <!-- Priority Filter -->
+        <mat-form-field class="w-full">
+          <mat-label>Priority</mat-label>
+          <mat-select id="priority" formControlName="priority">
+            @for (item of priorities; track $index) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Status Filter -->
+        <mat-form-field class="w-full">
+          <mat-label>Status</mat-label>
+          <mat-select id="status" formControlName="status">
+            <mat-option value="Pending">Pending</mat-option>
+            <mat-option value="InProgress">In Progress</mat-option>
+            <mat-option value="Completed">Completed</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Assigned To Filter -->
+        <mat-form-field class="w-full">
+          <mat-label>Assigned To</mat-label>
+          <mat-select id="assignedTo" formControlName="assignedTo">
+            @for (user of users(); track $index) {
+            <mat-option [value]="user">{{ user.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          type="submit"
+          (click)="filterForm.reset()"
+          class="px-4 h-14 rounded bg-red-800 dark:bg-gray-800 text-white disabled:opacity-85 border-white"
+        >
+          Reset
+        </button>
       </div>
-    </div>
+      }
+    </cdk-accordion-item>
+  </cdk-accordion>
 
-    <!-- Completed Tasks -->
-    <div class="flex-1">
-      <h2 class="text-xl font-semibold mb-4">Completed</h2>
-      <div
-        class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
-        cdkDropList
-        id="Completed"
-        [cdkDropListData]="completedTasks()"
-        (cdkDropListDropped)="onDrop($event)"
-      >
-        @for (task of completedTasks(); track $index) {
-        <task-card [task]="task"></task-card>
-        } @if(!completedTasks()?.length){
-        <no-data-found></no-data-found>
-        }
+  <div class="p-4 space-y-4">
+    <div class="flex flex-col lg:flex-row gap-6" cdkDropListGroup>
+      <!-- Pending Tasks -->
+      <div class="flex-1">
+        <h2 class="text-xl font-semibold mb-4">Pending</h2>
+        <div
+          class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
+          cdkDropList
+          id="Pending"
+          [cdkDropListData]="pendingTasks()"
+          (cdkDropListDropped)="onDrop($event)"
+        >
+          @for (task of pendingTasks(); track $index) {
+          <task-card (updateList)="getTasks()" [task]="task"></task-card>
+          } @if(!pendingTasks()?.length){
+          <no-data-found></no-data-found>
+          }
+        </div>
+      </div>
+
+      <!-- In Progress Tasks -->
+      <div class="flex-1">
+        <h2 class="text-xl font-semibold mb-4">In Progress</h2>
+        <div
+          class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
+          cdkDropList
+          id="InProgress"
+          [cdkDropListData]="inProgressTasks()"
+          (cdkDropListDropped)="onDrop($event)"
+        >
+          @for (task of inProgressTasks(); track $index) {
+          <task-card (updateList)="getTasks()" [task]="task"></task-card>
+          } @if(!inProgressTasks()?.length){
+          <no-data-found></no-data-found>
+          }
+        </div>
+      </div>
+
+      <!-- Completed Tasks -->
+      <div class="flex-1">
+        <h2 class="text-xl font-semibold mb-4">Completed</h2>
+        <div
+          class="border p-4 rounded-md bg-gray-50 dark:bg-gray-900 shadow flex flex-col gap-2"
+          cdkDropList
+          id="Completed"
+          [cdkDropListData]="completedTasks()"
+          (cdkDropListDropped)="onDrop($event)"
+        >
+          @for (task of completedTasks(); track $index) {
+          <task-card (updateList)="getTasks()" [task]="task"></task-card>
+          } @if(!completedTasks()?.length){
+          <no-data-found></no-data-found>
+          }
+        </div>
       </div>
     </div>
   </div>

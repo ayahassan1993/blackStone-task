@@ -30,7 +30,7 @@
           formControlName="assignedTo"
           [compareWith]="compareWith"
         >
-          @for (user of users; track $index) {
+          @for (user of users(); track $index) {
           <mat-option [value]="user">{{ user.name }}</mat-option>
           }
         </mat-select>
@@ -60,7 +60,13 @@
       <!-- Due Date -->
       <mat-form-field class="w-full">
         <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="dueDate" />
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="dueDate"
+          [min]="today"
+          readonly
+        />
         <mat-datepicker-toggle
           matIconSuffix
           [for]="picker"

@@ -1,7 +1,6 @@
-<a
+<div
   [id]="task()?.id"
-  class="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md block"
-  routerLink="{{ task()?.id }}"
+  class="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md"
   cdkDrag
 >
   <p class="font-bold">{{ task().name }}</p>
@@ -17,30 +16,64 @@
   </div>
 
   <div class="flex justify-between items-center mt-2">
-    <span
-      class="text-xs px-2 py-1 rounded-full"
-      [ngClass]="{
-        'bg-red-200 text-red-600': task().priority === 'High',
-        'bg-yellow-200 text-yellow-600': task().priority === 'Medium',
-        'bg-green-200 text-green-600': task().priority === 'Low'
-      }"
-    >
-      {{ task().priority }}
-    </span>
+    <div class="flex gap-2 items-center">
+      <small>{{ task()?.dueDate | date : "mediumDate" }} </small>
+
+      <span
+        class="text-xs px-2 py-1 rounded-full"
+        [ngClass]="{
+          'bg-red-200 text-red-600': task().priority === 'High',
+          'bg-yellow-200 text-yellow-600': task().priority === 'Medium',
+          'bg-green-200 text-green-600': task().priority === 'Low'
+        }"
+      >
+        {{ task().priority }}
+      </span>
+    </div>
+
     <div>
       <a
-        (click)="$event.stopPropagation()"
-        class="text-blue-500 hover:underline text-sm mr-2"
+        class="text-green-900 hover:underline text-sm mr-2 cursor-pointer"
+        routerLink="{{ task()?.id }}"
+      >
+        View</a
+      >
+      <a
+        class="text-blue-500 hover:underline text-sm mr-2 cursor-pointer"
         routerLink="{{ task()?.id }}/edit"
       >
         Edit
       </a>
       <button
         class="text-red-500 hover:underline text-sm"
-        (click)="$event.stopPropagation()"
+        (click)="confirmDelete()"
       >
         Delete
       </button>
     </div>
   </div>
-</a>
+</div>
+
+<ng-template #deleteConfirmation let-data>
+  <h2 mat-dialog-title>Confirm Deletion</h2>
+  <mat-dialog-content>
+    <p>Are you sure you want to delete the task: "{{ task().name }}"?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions class="justify-center flex gap-4">
+    <button
+      mat-button
+      mat-dialog-close
+      class="bg-red-800 text-white px-4 py-1 focus:outline-0 rounded"
+    >
+      No
+    </button>
+    <button
+      mat-button
+      class="bg-gray-900 text-white px-4 py-1 focus:outline-0 rounded"
+      (click)="deleteTask()"
+      mat-dialog-close
+    >
+      Yes
+    </button>
+  </mat-dialog-actions>
+</ng-template>

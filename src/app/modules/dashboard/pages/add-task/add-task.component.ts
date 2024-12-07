@@ -15,6 +15,8 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from '../../models/task.model';
+import { UsersService } from '../../services/users.service';
+import { User } from '../../models/user.modal';
 
 @Component({
   selector: 'app-add-task',
@@ -36,31 +38,33 @@ export class AddTaskComponent {
   taskForm: FormGroup = new FormGroup({});
   task: WritableSignal<Task> = signal({} as Task);
   editViewMode: WritableSignal<string> = signal('');
-
+  today = new Date().toISOString().split('T')[0];
   minDate: string = new Date().toISOString().split('T')[0];
-  users = [
-    { id: 1, name: 'User 1' },
-    { id: 2, name: 'User 2' },
-    { id: 3, name: 'User 3' },
-  ];
+  users: WritableSignal<User[]> = signal([]);
+
   priorities = ['Low', 'Medium', 'High'];
 
   constructor(
     private dashboardServ: DashboardService,
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private userServ: UsersService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    this.getUsers();
     const id = this.activeRoute.snapshot.params?.['id'];
     id ? this.getTask(id) : null;
+  }
+
+  getUsers() {
+    this.users.set(this.userServ.getUsers());
   }
 
   getTask(id: number) {
     this.task.set(this.dashboardServ.getTask(id) as Task);
     this.editViewMode.set(this.router.url?.includes('edit') ? 'edit' : 'view');
-    console.log(this.task());
     this.taskForm.patchValue(this.task());
     this.editViewMode() == 'view' ? this.taskForm.disable() : null;
   }
