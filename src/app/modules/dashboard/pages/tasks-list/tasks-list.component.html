@@ -98,7 +98,7 @@
           (cdkDropListDropped)="onDrop($event)"
         >
           @for (task of pendingTasks(); track $index) {
-          <task-card (updateList)="getTasks()" [task]="task"></task-card>
+          <task-card (updateList)="getTasks()" [task]="task || {}"></task-card>
           } @if(!pendingTasks()?.length){
           <no-data-found></no-data-found>
           }
@@ -116,7 +116,7 @@
           (cdkDropListDropped)="onDrop($event)"
         >
           @for (task of inProgressTasks(); track $index) {
-          <task-card (updateList)="getTasks()" [task]="task"></task-card>
+          <task-card (updateList)="getTasks()" [task]="task || {}"></task-card>
           } @if(!inProgressTasks()?.length){
           <no-data-found></no-data-found>
           }
@@ -134,7 +134,7 @@
           (cdkDropListDropped)="onDrop($event)"
         >
           @for (task of completedTasks(); track $index) {
-          <task-card (updateList)="getTasks()" [task]="task"></task-card>
+          <task-card (updateList)="getTasks()" [task]="task || {}"></task-card>
           } @if(!completedTasks()?.length){
           <no-data-found></no-data-found>
           }

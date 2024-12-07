@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  Input,
   input,
   output,
   TemplateRef,
@@ -22,8 +23,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 })
 export class TaskCardComponent {
   @ViewChild('deleteConfirmation') deleteConfirmation!: TemplateRef<any>;
-  task = input.required<Task>();
+  @Input() task: Task = {} as Task;
   updateList = output<boolean>();
+
   constructor(
     private dialog: MatDialog,
     private dashboardServ: DashboardService
@@ -36,7 +38,7 @@ export class TaskCardComponent {
   }
 
   deleteTask(): void {
-    this.dashboardServ.deleteTask(this.task());
+    this.dashboardServ.deleteTask(this.task);
     this.updateList.emit(true);
   }
 }

@@ -1,46 +1,46 @@
 <div
-  [id]="task()?.id"
+  [id]="task?.id"
   class="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md"
   cdkDrag
 >
-  <p class="font-bold">{{ task().name }}</p>
+  <p class="font-bold">{{ task.name }}</p>
   <div class="flex justify-between items-center mt-2">
     <p
       class="text-sm text-gray-500 dark:text-gray-400 max-w-36 text-ellipsis whitespace-nowrap overflow-hidden"
     >
-      {{ task().description }}
+      {{ task.description }}
     </p>
     <p class="text-sm text-gray-500 dark:text-gray-400">
-      {{ task().assignedTo?.name }}
+      {{ task.assignedTo?.name }}
     </p>
   </div>
 
   <div class="flex justify-between items-center mt-2">
     <div class="flex gap-2 items-center">
-      <small>{{ task()?.dueDate | date : "mediumDate" }} </small>
+      <small>{{ task?.dueDate | date : "mediumDate" }} </small>
 
       <span
         class="text-xs px-2 py-1 rounded-full"
         [ngClass]="{
-          'bg-red-200 text-red-600': task().priority === 'High',
-          'bg-yellow-200 text-yellow-600': task().priority === 'Medium',
-          'bg-green-200 text-green-600': task().priority === 'Low'
+          'bg-red-200 text-red-600': task.priority === 'High',
+          'bg-yellow-200 text-yellow-600': task.priority === 'Medium',
+          'bg-green-200 text-green-600': task.priority === 'Low'
         }"
       >
-        {{ task().priority }}
+        {{ task.priority }}
       </span>
     </div>
 
     <div>
       <a
         class="text-green-900 hover:underline text-sm mr-2 cursor-pointer"
-        routerLink="{{ task()?.id }}"
+        routerLink="{{ task?.id }}"
       >
         View</a
       >
       <a
         class="text-blue-500 hover:underline text-sm mr-2 cursor-pointer"
-        routerLink="{{ task()?.id }}/edit"
+        routerLink="{{ task?.id }}/edit"
       >
         Edit
       </a>
@@ -57,7 +57,7 @@
 <ng-template #deleteConfirmation let-data>
   <h2 mat-dialog-title>Confirm Deletion</h2>
   <mat-dialog-content>
-    <p>Are you sure you want to delete the task: "{{ task().name }}"?</p>
+    <p>Are you sure you want to delete the task: "{{ task.name }}"?</p>
   </mat-dialog-content>
   <mat-dialog-actions class="justify-center flex gap-4">
     <button
