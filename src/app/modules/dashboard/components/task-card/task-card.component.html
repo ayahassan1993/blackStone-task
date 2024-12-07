@@ -1,6 +1,7 @@
-<div
+<a
   [id]="task()?.id"
-  class="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md"
+  class="p-4 bg-white dark:bg-gray-800 rounded-md shadow-md block"
+  routerLink="{{ task()?.id }}"
   cdkDrag
 >
   <p class="font-bold">{{ task().name }}</p>
@@ -27,15 +28,19 @@
       {{ task().priority }}
     </span>
     <div>
-      <a class="text-blue-500 hover:underline text-sm mr-2" routerLink="/">
+      <a
+        (click)="$event.stopPropagation()"
+        class="text-blue-500 hover:underline text-sm mr-2"
+        routerLink="{{ task()?.id }}/edit"
+      >
         Edit
       </a>
       <button
         class="text-red-500 hover:underline text-sm"
-        (click)="taskAction.emit('delete')"
+        (click)="$event.stopPropagation()"
       >
         Delete
       </button>
     </div>
   </div>
-</div>
+</a>

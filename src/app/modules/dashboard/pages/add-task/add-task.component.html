@@ -8,8 +8,8 @@
         <mat-label>Task Name</mat-label>
         <input
           matInput
-          id="taskName"
-          formControlName="taskName"
+          id="name"
+          formControlName="name"
           placeholder="Enter task name"
           maxlength="50"
         />
@@ -25,7 +25,11 @@
       <!-- Assigned To -->
       <mat-form-field class="w-full">
         <mat-label>Assigned To</mat-label>
-        <mat-select id="assignedTo" formControlName="assignedTo">
+        <mat-select
+          id="assignedTo"
+          formControlName="assignedTo"
+          [compareWith]="compareWith"
+        >
           @for (user of users; track $index) {
           <mat-option [value]="user">{{ user.name }}</mat-option>
           }
@@ -87,6 +91,7 @@
       </mat-form-field>
     </div>
 
+    @if(this.editViewMode() !== 'view'){
     <!-- Submit Button -->
     <div class="flex justify-end">
       <button
@@ -98,5 +103,6 @@
         Submit
       </button>
     </div>
+    }
   </form>
 </div>

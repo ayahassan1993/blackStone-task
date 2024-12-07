@@ -55,7 +55,7 @@ export class DashboardService {
   }
 
   getTask(id: number) {
-    return this.tasksList.find((task) => task.id === id);
+    return this.tasksList.find((task) => +task.id === +id);
   }
 
   addTask(task: Task) {
@@ -74,8 +74,10 @@ export class DashboardService {
 
   updateTask(task: Task) {
     let index = this.tasksList.findIndex((t) => t.id == task.id);
+    console.log(this.tasksList);
     if (index > -1) {
       this.tasksList[index] = { ...task };
+
       this.tasksListBehavior.next(this.tasksList);
     }
   }
